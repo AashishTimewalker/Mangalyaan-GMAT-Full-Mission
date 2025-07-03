@@ -1,0 +1,350 @@
+%General Mission Analysis Tool(GMAT) Script
+%Created: 2025-07-02 20:17:52
+
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft MANGALYAAN;
+MANGALYAAN.DateFormat = UTCGregorian;
+MANGALYAAN.Epoch = '18 Nov 2013 20:26:24.315';
+MANGALYAAN.CoordinateSystem = EarthMJ2000Eq;
+MANGALYAAN.DisplayStateType = Keplerian;
+MANGALYAAN.SMA = -32593.21599272808;
+MANGALYAAN.ECC = 1.202872548116185;
+MANGALYAAN.INC = 28.80241266404141;
+MANGALYAAN.RAAN = 173.9693759331483;
+MANGALYAAN.AOP = 240.9696529532764;
+MANGALYAAN.TA = 359.9465533778138;
+MANGALYAAN.DryMass = 850;
+MANGALYAAN.Cd = 2.2;
+MANGALYAAN.Cr = 1.8;
+MANGALYAAN.DragArea = 15;
+MANGALYAAN.SRPArea = 1;
+MANGALYAAN.SPADDragScaleFactor = 1;
+MANGALYAAN.SPADSRPScaleFactor = 1;
+MANGALYAAN.AtmosDensityScaleFactor = 1;
+MANGALYAAN.ExtendedMassPropertiesModel = 'None';
+MANGALYAAN.Tanks = {MainTank};
+MANGALYAAN.NAIFId = -10000001;
+MANGALYAAN.NAIFIdReferenceFrame = -9000001;
+MANGALYAAN.OrbitColor = Red;
+MANGALYAAN.TargetColor = Teal;
+MANGALYAAN.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+MANGALYAAN.CdSigma = 1e+70;
+MANGALYAAN.CrSigma = 1e+70;
+MANGALYAAN.Id = 'SatId';
+MANGALYAAN.Attitude = CoordinateSystemFixed;
+MANGALYAAN.SPADSRPInterpolationMethod = Bilinear;
+MANGALYAAN.SPADSRPScaleFactorSigma = 1e+70;
+MANGALYAAN.SPADDragInterpolationMethod = Bilinear;
+MANGALYAAN.SPADDragScaleFactorSigma = 1e+70;
+MANGALYAAN.AtmosDensityScaleFactorSigma = 1e+70;
+MANGALYAAN.ModelFile = 'aura.3ds';
+MANGALYAAN.ModelOffsetX = 0;
+MANGALYAAN.ModelOffsetY = 0;
+MANGALYAAN.ModelOffsetZ = 0;
+MANGALYAAN.ModelRotationX = 0;
+MANGALYAAN.ModelRotationY = 0;
+MANGALYAAN.ModelRotationZ = 0;
+MANGALYAAN.ModelScale = 1;
+MANGALYAAN.AttitudeDisplayStateType = 'Quaternion';
+MANGALYAAN.AttitudeRateDisplayStateType = 'AngularVelocity';
+MANGALYAAN.AttitudeCoordinateSystem = EarthMJ2000Eq;
+MANGALYAAN.EulerAngleSequence = '321';
+
+%----------------------------------------
+%---------- Hardware Components
+%----------------------------------------
+
+Create ChemicalTank MainTank;
+MainTank.DirectionX = 0;
+MainTank.DirectionY = 0;
+MainTank.DirectionZ = 1;
+MainTank.SecondDirectionX = 0;
+MainTank.SecondDirectionY = -1;
+MainTank.SecondDirectionZ = 0;
+MainTank.HWOriginInBCSX = 0;
+MainTank.HWOriginInBCSY = 0;
+MainTank.HWOriginInBCSZ = 0;
+MainTank.AllowNegativeFuelMass = false;
+MainTank.FuelMass = 1718;
+MainTank.FuelCenterOfMassX = 0;
+MainTank.FuelCenterOfMassY = 0;
+MainTank.FuelCenterOfMassZ = 0;
+MainTank.FuelMomentOfInertiaXX = 99;
+MainTank.FuelMomentOfInertiaXY = 0;
+MainTank.FuelMomentOfInertiaXZ = 0;
+MainTank.FuelMomentOfInertiaYY = 99;
+MainTank.FuelMomentOfInertiaYZ = 0;
+MainTank.FuelMomentOfInertiaZZ = 99;
+MainTank.Pressure = 5000;
+MainTank.Temperature = 20;
+MainTank.RefTemperature = 20;
+MainTank.Volume = 2;
+MainTank.FuelDensity = 1000;
+MainTank.PressureModel = PressureRegulated;
+
+
+
+%----------------------------------------
+%---------- ForceModels
+%----------------------------------------
+
+Create ForceModel NearEarth_ForceModel;
+NearEarth_ForceModel.CentralBody = Earth;
+NearEarth_ForceModel.PrimaryBodies = {Earth};
+NearEarth_ForceModel.PointMasses = {Luna, Sun};
+NearEarth_ForceModel.Drag = None;
+NearEarth_ForceModel.SRP = On;
+NearEarth_ForceModel.RelativisticCorrection = Off;
+NearEarth_ForceModel.ErrorControl = RSSStep;
+NearEarth_ForceModel.GravityField.Earth.Degree = 8;
+NearEarth_ForceModel.GravityField.Earth.Order = 8;
+NearEarth_ForceModel.GravityField.Earth.StmLimit = 100;
+NearEarth_ForceModel.GravityField.Earth.PotentialFile = 'JGM2.cof';
+NearEarth_ForceModel.GravityField.Earth.TideModel = 'None';
+NearEarth_ForceModel.SRP.Flux = 1367;
+NearEarth_ForceModel.SRP.SRPModel = Spherical;
+NearEarth_ForceModel.SRP.Nominal_Sun = 149597870.691;
+
+Create ForceModel DeepSpace_ForceModel;
+DeepSpace_ForceModel.CentralBody = Sun;
+DeepSpace_ForceModel.PointMasses = {Earth, Jupiter, Luna, Mars, Neptune, Saturn, Sun, Uranus, Venus};
+DeepSpace_ForceModel.Drag = None;
+DeepSpace_ForceModel.SRP = On;
+DeepSpace_ForceModel.RelativisticCorrection = Off;
+DeepSpace_ForceModel.ErrorControl = RSSStep;
+DeepSpace_ForceModel.SRP.Flux = 1367;
+DeepSpace_ForceModel.SRP.SRPModel = Spherical;
+DeepSpace_ForceModel.SRP.Nominal_Sun = 149597870.691;
+
+Create ForceModel NearMar_ForceModel;
+NearMar_ForceModel.CentralBody = Mars;
+NearMar_ForceModel.PrimaryBodies = {Mars};
+NearMar_ForceModel.PointMasses = {Sun};
+NearMar_ForceModel.Drag = None;
+NearMar_ForceModel.SRP = On;
+NearMar_ForceModel.RelativisticCorrection = Off;
+NearMar_ForceModel.ErrorControl = RSSStep;
+NearMar_ForceModel.GravityField.Mars.Degree = 8;
+NearMar_ForceModel.GravityField.Mars.Order = 8;
+NearMar_ForceModel.GravityField.Mars.StmLimit = 100;
+NearMar_ForceModel.GravityField.Mars.PotentialFile = 'Mars50c.cof';
+NearMar_ForceModel.GravityField.Mars.TideModel = 'None';
+NearMar_ForceModel.SRP.Flux = 1367;
+NearMar_ForceModel.SRP.SRPModel = Spherical;
+NearMar_ForceModel.SRP.Nominal_Sun = 149597870.691;
+
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+
+Create Propagator NearEarth;
+NearEarth.FM = NearEarth_ForceModel;
+NearEarth.Type = RungeKutta89;
+NearEarth.InitialStepSize = 600;
+NearEarth.Accuracy = 1e-13;
+NearEarth.MinStep = 0;
+NearEarth.MaxStep = 600;
+NearEarth.MaxStepAttempts = 50;
+NearEarth.StopIfAccuracyIsViolated = true;
+
+Create Propagator DeepSpace;
+DeepSpace.FM = DeepSpace_ForceModel;
+DeepSpace.Type = PrinceDormand78;
+DeepSpace.InitialStepSize = 600;
+DeepSpace.Accuracy = 1e-12;
+DeepSpace.MinStep = 0;
+DeepSpace.MaxStep = 864000;
+DeepSpace.MaxStepAttempts = 50;
+DeepSpace.StopIfAccuracyIsViolated = true;
+
+Create Propagator NearMar;
+NearMar.FM = NearMar_ForceModel;
+NearMar.Type = PrinceDormand78;
+NearMar.InitialStepSize = 600;
+NearMar.Accuracy = 1e-12;
+NearMar.MinStep = 0;
+NearMar.MaxStep = 864000;
+NearMar.MaxStepAttempts = 50;
+NearMar.StopIfAccuracyIsViolated = true;
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create ImpulsiveBurn TCM;
+TCM.CoordinateSystem = Local;
+TCM.Origin = Earth;
+TCM.Axes = VNB;
+TCM.Element1 = 0;
+TCM.Element2 = 0;
+TCM.Element3 = 0;
+TCM.DecrementMass = true;
+TCM.Tank = {MainTank};
+TCM.Isp = 300;
+TCM.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn MOI;
+MOI.CoordinateSystem = Local;
+MOI.Origin = Mars;
+MOI.Axes = VNB;
+MOI.Element1 = 0;
+MOI.Element2 = 0;
+MOI.Element3 = 0;
+MOI.DecrementMass = true;
+MOI.Tank = {MainTank};
+MOI.Isp = 300;
+MOI.GravitationalAccel = 9.81;
+
+%----------------------------------------
+%---------- Coordinate Systems
+%----------------------------------------
+
+Create CoordinateSystem SunEcliptic;
+SunEcliptic.Origin = Sun;
+SunEcliptic.Axes = MJ2000Ec;
+
+Create CoordinateSystem MarsInertial;
+MarsInertial.Origin = Mars;
+MarsInertial.Axes = BodyInertial;
+
+%----------------------------------------
+%---------- Solvers
+%----------------------------------------
+
+Create DifferentialCorrector DeafaultDC;
+DeafaultDC.ShowProgress = true;
+DeafaultDC.ReportStyle = Normal;
+DeafaultDC.ReportFile = 'DifferentialCorrectorDC1.data';
+DeafaultDC.MaximumIterations = 25;
+DeafaultDC.DerivativeMethod = ForwardDifference;
+DeafaultDC.Algorithm = NewtonRaphson;
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create OrbitView EarthView;
+EarthView.SolverIterations = Current;
+EarthView.UpperLeft = [ 1.007647058823529 0 ];
+EarthView.Size = [ 0.09764705882352941 0.445852534562212 ];
+EarthView.RelativeZOrder = 308;
+EarthView.Maximized = false;
+EarthView.Add = {MANGALYAAN, Earth};
+EarthView.CoordinateSystem = EarthMJ2000Eq;
+EarthView.DrawObject = [ true true ];
+EarthView.DataCollectFrequency = 1;
+EarthView.UpdatePlotFrequency = 50;
+EarthView.NumPointsToRedraw = 0;
+EarthView.ShowPlot = true;
+EarthView.MaxPlotPoints = 20000;
+EarthView.ShowLabels = true;
+EarthView.ViewPointReference = Earth;
+EarthView.ViewPointVector = [ 0 0 30000 ];
+EarthView.ViewDirection = Earth;
+EarthView.ViewScaleFactor = 4;
+EarthView.ViewUpCoordinateSystem = EarthMJ2000Eq;
+EarthView.ViewUpAxis = Z;
+EarthView.EclipticPlane = Off;
+EarthView.XYPlane = On;
+EarthView.WireFrame = Off;
+EarthView.Axes = On;
+EarthView.Grid = Off;
+EarthView.SunLine = Off;
+EarthView.UseInitialView = On;
+EarthView.StarCount = 7000;
+EarthView.EnableStars = On;
+EarthView.EnableConstellations = On;
+
+Create OrbitView SolarSystemView;
+SolarSystemView.SolverIterations = Current;
+SolarSystemView.UpperLeft = [ 0.1541176470588235 0.4527649769585254 ];
+SolarSystemView.Size = [ 0.4223529411764706 0.4470046082949309 ];
+SolarSystemView.RelativeZOrder = 260;
+SolarSystemView.Maximized = true;
+SolarSystemView.Add = {MANGALYAAN, Earth, Mars, Sun};
+SolarSystemView.CoordinateSystem = SunEcliptic;
+SolarSystemView.DrawObject = [ true true true true ];
+SolarSystemView.DataCollectFrequency = 1;
+SolarSystemView.UpdatePlotFrequency = 50;
+SolarSystemView.NumPointsToRedraw = 0;
+SolarSystemView.ShowPlot = true;
+SolarSystemView.MaxPlotPoints = 20000;
+SolarSystemView.ShowLabels = true;
+SolarSystemView.ViewPointReference = Sun;
+SolarSystemView.ViewPointVector = [ 0 0 500000000 ];
+SolarSystemView.ViewDirection = Sun;
+SolarSystemView.ViewScaleFactor = 1;
+SolarSystemView.ViewUpCoordinateSystem = SunEcliptic;
+SolarSystemView.ViewUpAxis = Z;
+SolarSystemView.EclipticPlane = Off;
+SolarSystemView.XYPlane = On;
+SolarSystemView.WireFrame = Off;
+SolarSystemView.Axes = On;
+SolarSystemView.Grid = Off;
+SolarSystemView.SunLine = Off;
+SolarSystemView.UseInitialView = On;
+SolarSystemView.StarCount = 7000;
+SolarSystemView.EnableStars = On;
+SolarSystemView.EnableConstellations = On;
+
+Create OrbitView MarsView;
+MarsView.SolverIterations = Current;
+MarsView.UpperLeft = [ 0.1876470588235294 0.5011520737327189 ];
+MarsView.Size = [ 0.4235294117647059 0.4493087557603687 ];
+MarsView.RelativeZOrder = 322;
+MarsView.Maximized = true;
+MarsView.Add = {MANGALYAAN, Earth, Mars};
+MarsView.CoordinateSystem = MarsInertial;
+MarsView.DrawObject = [ true true true ];
+MarsView.DataCollectFrequency = 1;
+MarsView.UpdatePlotFrequency = 50;
+MarsView.NumPointsToRedraw = 0;
+MarsView.ShowPlot = true;
+MarsView.MaxPlotPoints = 20000;
+MarsView.ShowLabels = true;
+MarsView.ViewPointReference = Mars;
+MarsView.ViewPointVector = [ 22000 22000 0 ];
+MarsView.ViewDirection = Mars;
+MarsView.ViewScaleFactor = 1;
+MarsView.ViewUpCoordinateSystem = MarsInertial;
+MarsView.ViewUpAxis = Z;
+MarsView.EclipticPlane = Off;
+MarsView.XYPlane = On;
+MarsView.WireFrame = Off;
+MarsView.Axes = On;
+MarsView.Grid = Off;
+MarsView.SunLine = Off;
+MarsView.UseInitialView = On;
+MarsView.StarCount = 7000;
+MarsView.EnableStars = On;
+MarsView.EnableConstellations = On;
+
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+
+BeginMissionSequence;
+Target 'Target desired B-plane Coordinates' DeafaultDC {SolveMode = Solve, ExitMode = SaveAndContinue, ShowProgressWindow = true};
+   Propagate 'Prop 3 Days' NearEarth(MANGALYAAN) {MANGALYAAN.ElapsedDays = 3};
+   Propagate 'Prop 12 Days to TCM' DeepSpace(MANGALYAAN) {MANGALYAAN.ElapsedDays = 12};
+   Vary 'Vary TCM.V' DeafaultDC(TCM.Element1 = 0.01045951012113738, {Perturbation = 0.00001, Lower = -10e300, Upper = 10e300, MaxStep = 0.002, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   Vary 'Vary TCM.N' DeafaultDC(MOI.Element2 = 1e-05, {Perturbation = 0.00001, Lower = -10e300, Upper = 10e300, MaxStep = 0.002, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   Vary 'Vary TCM.B' DeafaultDC(TCM.Element3 = -0.01685602868027534, {Perturbation = 0.00001, Lower = -10e300, Upper = 10e300, MaxStep = 0.002, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   Maneuver 'Apply TCM' TCM(MANGALYAAN);
+   Propagate 'Prop 280 Days' DeepSpace(MANGALYAAN) {MANGALYAAN.ElapsedDays = 280};
+   Propagate 'Prop to Mars Periapsis' NearMar(MANGALYAAN) {MANGALYAAN.Mars.Periapsis};
+   Achieve 'Achieve BdotT' DeafaultDC(MANGALYAAN.MarsInertial.BdotT = 0, {Tolerance = 0.00001});
+   Achieve 'Achieve BdotR' DeafaultDC(MANGALYAAN.MarsInertial.BdotR = -7000, {Tolerance = 0.00001});
+EndTarget;  % For targeter DeafaultDC
+Target 'Mars Capture' DeafaultDC {SolveMode = Solve, ExitMode = SaveAndContinue, ShowProgressWindow = true};
+   Vary 'Vary MOI.V' DeafaultDC(MOI.Element1 = -1, {Perturbation = 0.00001, Lower = -10e300, Upper = 10e300, MaxStep = 0.1, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   Maneuver 'Apply MOI' MOI(MANGALYAAN);
+   Propagate 'Prop to Mars Apoapsis' NearMar(MANGALYAAN) {MANGALYAAN.Mars.Apoapsis};
+   Achieve 'Achieve RMAG' DeafaultDC(MANGALYAAN.Mars.RMAG = 12000, {Tolerance = 0.1});
+EndTarget;  % For targeter DeafaultDC
+Propagate 'Prop for 1 day' NearMar(MANGALYAAN) {MANGALYAAN.ElapsedDays = 1};

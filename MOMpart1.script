@@ -1,0 +1,244 @@
+%General Mission Analysis Tool(GMAT) Script
+%Created: 2025-06-24 10:39:31
+
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft MOM;
+MOM.DateFormat = UTCGregorian;
+MOM.Epoch = '01 Jan 2000 11:59:28.000';
+MOM.CoordinateSystem = EarthMJ2000Eq;
+MOM.DisplayStateType = Keplerian;
+MOM.SMA = 18246.00000000003;
+MOM.ECC = 0.6370000000000006;
+MOM.INC = 19.20000000000001;
+MOM.RAAN = 0;
+MOM.AOP = 0;
+MOM.TA = 0;
+MOM.DryMass = 850;
+MOM.Cd = 2.2;
+MOM.Cr = 1.8;
+MOM.DragArea = 15;
+MOM.SRPArea = 1;
+MOM.SPADDragScaleFactor = 1;
+MOM.SPADSRPScaleFactor = 1;
+MOM.AtmosDensityScaleFactor = 1;
+MOM.ExtendedMassPropertiesModel = 'None';
+MOM.NAIFId = -10000001;
+MOM.NAIFIdReferenceFrame = -9000001;
+MOM.OrbitColor = Red;
+MOM.TargetColor = Teal;
+MOM.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+MOM.CdSigma = 1e+70;
+MOM.CrSigma = 1e+70;
+MOM.Id = 'SatId';
+MOM.Attitude = CoordinateSystemFixed;
+MOM.SPADSRPInterpolationMethod = Bilinear;
+MOM.SPADSRPScaleFactorSigma = 1e+70;
+MOM.SPADDragInterpolationMethod = Bilinear;
+MOM.SPADDragScaleFactorSigma = 1e+70;
+MOM.AtmosDensityScaleFactorSigma = 1e+70;
+MOM.ModelFile = 'aura.3ds';
+MOM.ModelOffsetX = 0;
+MOM.ModelOffsetY = 0;
+MOM.ModelOffsetZ = 0;
+MOM.ModelRotationX = 0;
+MOM.ModelRotationY = 0;
+MOM.ModelRotationZ = 0;
+MOM.ModelScale = 1;
+MOM.AttitudeDisplayStateType = 'Quaternion';
+MOM.AttitudeRateDisplayStateType = 'AngularVelocity';
+MOM.AttitudeCoordinateSystem = EarthMJ2000Eq;
+MOM.EulerAngleSequence = '321';
+
+%----------------------------------------
+%---------- ForceModels
+%----------------------------------------
+
+Create ForceModel DefaultProp_ForceModel;
+DefaultProp_ForceModel.CentralBody = Earth;
+DefaultProp_ForceModel.PrimaryBodies = {Earth};
+DefaultProp_ForceModel.Drag = None;
+DefaultProp_ForceModel.SRP = Off;
+DefaultProp_ForceModel.RelativisticCorrection = Off;
+DefaultProp_ForceModel.ErrorControl = RSSStep;
+DefaultProp_ForceModel.GravityField.Earth.Degree = 4;
+DefaultProp_ForceModel.GravityField.Earth.Order = 4;
+DefaultProp_ForceModel.GravityField.Earth.StmLimit = 100;
+DefaultProp_ForceModel.GravityField.Earth.PotentialFile = 'JGM2.cof';
+DefaultProp_ForceModel.GravityField.Earth.TideModel = 'None';
+
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+
+Create Propagator DefaultProp;
+DefaultProp.FM = DefaultProp_ForceModel;
+DefaultProp.Type = RungeKutta89;
+DefaultProp.InitialStepSize = 60;
+DefaultProp.Accuracy = 9.999999999999999e-12;
+DefaultProp.MinStep = 0.001;
+DefaultProp.MaxStep = 2700;
+DefaultProp.MaxStepAttempts = 50;
+DefaultProp.StopIfAccuracyIsViolated = true;
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create ImpulsiveBurn ImpulsiveBurn1;
+ImpulsiveBurn1.CoordinateSystem = Local;
+ImpulsiveBurn1.Origin = Earth;
+ImpulsiveBurn1.Axes = VNB;
+ImpulsiveBurn1.Element1 = 0.14;
+ImpulsiveBurn1.Element2 = 0;
+ImpulsiveBurn1.Element3 = 0;
+ImpulsiveBurn1.DecrementMass = false;
+ImpulsiveBurn1.Isp = 300;
+ImpulsiveBurn1.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn ImpulsiveBurn2;
+ImpulsiveBurn2.CoordinateSystem = Local;
+ImpulsiveBurn2.Origin = Earth;
+ImpulsiveBurn2.Axes = VNB;
+ImpulsiveBurn2.Element1 = 0.19;
+ImpulsiveBurn2.Element2 = 0;
+ImpulsiveBurn2.Element3 = 0;
+ImpulsiveBurn2.DecrementMass = false;
+ImpulsiveBurn2.Isp = 300;
+ImpulsiveBurn2.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn ImpulsiveBurn3;
+ImpulsiveBurn3.CoordinateSystem = Local;
+ImpulsiveBurn3.Origin = Earth;
+ImpulsiveBurn3.Axes = VNB;
+ImpulsiveBurn3.Element1 = 0.28;
+ImpulsiveBurn3.Element2 = 0;
+ImpulsiveBurn3.Element3 = 0;
+ImpulsiveBurn3.DecrementMass = false;
+ImpulsiveBurn3.Isp = 300;
+ImpulsiveBurn3.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn ImpulsiveBurn4;
+ImpulsiveBurn4.CoordinateSystem = Local;
+ImpulsiveBurn4.Origin = Earth;
+ImpulsiveBurn4.Axes = VNB;
+ImpulsiveBurn4.Element1 = 0.03;
+ImpulsiveBurn4.Element2 = 0;
+ImpulsiveBurn4.Element3 = 0;
+ImpulsiveBurn4.DecrementMass = false;
+ImpulsiveBurn4.Isp = 300;
+ImpulsiveBurn4.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn ImpulsiveBurn5;
+ImpulsiveBurn5.CoordinateSystem = Local;
+ImpulsiveBurn5.Origin = Earth;
+ImpulsiveBurn5.Axes = VNB;
+ImpulsiveBurn5.Element1 = 0.12;
+ImpulsiveBurn5.Element2 = 0;
+ImpulsiveBurn5.Element3 = 0;
+ImpulsiveBurn5.DecrementMass = false;
+ImpulsiveBurn5.Isp = 300;
+ImpulsiveBurn5.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn ImpulsiveBurn6;
+ImpulsiveBurn6.CoordinateSystem = Local;
+ImpulsiveBurn6.Origin = Earth;
+ImpulsiveBurn6.Axes = VNB;
+ImpulsiveBurn6.Element1 = 0.11;
+ImpulsiveBurn6.Element2 = 0;
+ImpulsiveBurn6.Element3 = 0;
+ImpulsiveBurn6.DecrementMass = false;
+ImpulsiveBurn6.Isp = 300;
+ImpulsiveBurn6.GravitationalAccel = 9.81;
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create OrbitView DefaultOrbitView;
+DefaultOrbitView.SolverIterations = Current;
+DefaultOrbitView.UpperLeft = [ 0.001176470588235294 0 ];
+DefaultOrbitView.Size = [ 0.5 0.4504608294930876 ];
+DefaultOrbitView.RelativeZOrder = 507;
+DefaultOrbitView.Maximized = true;
+DefaultOrbitView.Add = {MOM, Earth};
+DefaultOrbitView.CoordinateSystem = EarthMJ2000Eq;
+DefaultOrbitView.DrawObject = [ true true ];
+DefaultOrbitView.DataCollectFrequency = 1;
+DefaultOrbitView.UpdatePlotFrequency = 50;
+DefaultOrbitView.NumPointsToRedraw = 0;
+DefaultOrbitView.ShowPlot = true;
+DefaultOrbitView.MaxPlotPoints = 20000;
+DefaultOrbitView.ShowLabels = true;
+DefaultOrbitView.ViewPointReference = Earth;
+DefaultOrbitView.ViewPointVector = [ 30000 0 0 ];
+DefaultOrbitView.ViewDirection = Earth;
+DefaultOrbitView.ViewScaleFactor = 1;
+DefaultOrbitView.ViewUpCoordinateSystem = EarthMJ2000Eq;
+DefaultOrbitView.ViewUpAxis = Z;
+DefaultOrbitView.EclipticPlane = Off;
+DefaultOrbitView.XYPlane = On;
+DefaultOrbitView.WireFrame = Off;
+DefaultOrbitView.Axes = On;
+DefaultOrbitView.Grid = Off;
+DefaultOrbitView.SunLine = Off;
+DefaultOrbitView.UseInitialView = On;
+DefaultOrbitView.StarCount = 7000;
+DefaultOrbitView.EnableStars = On;
+DefaultOrbitView.EnableConstellations = On;
+
+Create GroundTrackPlot DefaultGroundTrackPlot;
+DefaultGroundTrackPlot.SolverIterations = Current;
+DefaultGroundTrackPlot.UpperLeft = [ 0.001176470588235294 0.4516129032258064 ];
+DefaultGroundTrackPlot.Size = [ 0.5 0.4504608294930876 ];
+DefaultGroundTrackPlot.RelativeZOrder = 137;
+DefaultGroundTrackPlot.Maximized = false;
+DefaultGroundTrackPlot.Add = {MOM};
+DefaultGroundTrackPlot.DataCollectFrequency = 1;
+DefaultGroundTrackPlot.UpdatePlotFrequency = 50;
+DefaultGroundTrackPlot.NumPointsToRedraw = 0;
+DefaultGroundTrackPlot.ShowPlot = true;
+DefaultGroundTrackPlot.MaxPlotPoints = 20000;
+DefaultGroundTrackPlot.CentralBody = Earth;
+DefaultGroundTrackPlot.TextureMap = 'ModifiedBlueMarble.jpg';
+
+Create ReportFile ReportFile1;
+ReportFile1.SolverIterations = Current;
+ReportFile1.UpperLeft = [ 0 0 ];
+ReportFile1.Size = [ 0 0 ];
+ReportFile1.RelativeZOrder = 0;
+ReportFile1.Maximized = false;
+ReportFile1.Filename = 'C:\Users\deepi\Downloads\newrepo.txt';
+ReportFile1.Precision = 16;
+ReportFile1.Add = {MOM.Earth.Altitude, MOM.Earth.ECC, MOM.Earth.SMA};
+ReportFile1.WriteHeaders = true;
+ReportFile1.LeftJustify = On;
+ReportFile1.ZeroFill = Off;
+ReportFile1.FixedWidth = true;
+ReportFile1.Delimiter = ' ';
+ReportFile1.ColumnWidth = 23;
+ReportFile1.WriteReport = true;
+ReportFile1.AppendToExistingFile = false;
+
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+
+BeginMissionSequence;
+Propagate 'Orbit1' DefaultProp(MOM) {MOM.Earth.Periapsis};
+Maneuver ImpulsiveBurn1(MOM);
+Propagate 'Orbit2' DefaultProp(MOM) {MOM.Earth.Periapsis};
+Maneuver ImpulsiveBurn2(MOM);
+Propagate 'Orbit3' DefaultProp(MOM) {MOM.Earth.Periapsis};
+Maneuver ImpulsiveBurn3(MOM);
+Propagate 'Orbit4' DefaultProp(MOM) {MOM.Earth.Periapsis};
+Maneuver ImpulsiveBurn4(MOM);
+Propagate 'Orbit5' DefaultProp(MOM) {MOM.Earth.Periapsis};
+Maneuver ImpulsiveBurn5(MOM);
+Propagate 'Orbit6' DefaultProp(MOM) {MOM.Earth.Periapsis};
+Maneuver ImpulsiveBurn6(MOM);
+Propagate 'Orbit7' DefaultProp(MOM) {MOM.Earth.Periapsis};
